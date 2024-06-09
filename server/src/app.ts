@@ -1,6 +1,8 @@
 import express, { Express } from "express";
 import cors from "cors";
 import { LoginRouter } from "./routers/login.router";
+import dotenv from 'dotenv';
+dotenv.config();
 export class App {
   private _port: number = 3000;
   server: Express;
@@ -8,14 +10,13 @@ export class App {
   constructor() {
     this.server = express();
 
-    const dummyRouter = new LoginRouter();
+    const loginRouter = new LoginRouter();
 
     this.server.use(
       cors(),
       express.json(),
       express.urlencoded(),
-      express.static("src/storage"),
-      dummyRouter.getRoute(),
+      loginRouter.getRoute(),
     );
   }
 

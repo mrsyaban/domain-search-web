@@ -3,9 +3,15 @@ import Cookies from 'js-cookie';
 
 const ConfigPage = () => {
     const [token, setToken] = useState<string|undefined>();
+    const [name, setName] = useState<string | undefined>("");
+    const [email, setEmail] = useState<string | undefined>("");
 
   useEffect(() => {
-    const cookieToken = Cookies.get('token');
+    const cookieToken = Cookies.get('authToken');
+    const userName = Cookies.get('userName');
+    const userEmail = Cookies.get('userEmail');
+    setName(userName);
+    setEmail(userEmail);
     setToken(cookieToken);
   }, []);
 
@@ -25,13 +31,13 @@ const ConfigPage = () => {
         </div>
       </div>
 
-      {token ? (
+      {token && name && email ? (
         <div className="space-y-2">
           <div>
-            <span>Nama : Agus Joko</span>
+            <span>Nama : {name}</span>
           </div>
           <div>
-            <span>Email : agusjoko@gmail.com</span>
+            <span>Email : {email}</span>
           </div>
         </div>
       ) : (

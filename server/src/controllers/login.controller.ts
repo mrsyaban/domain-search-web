@@ -4,12 +4,15 @@ import jwt from "jsonwebtoken";
 export class LoginController {
   createToken() {
     return async (req: Request, res: Response) => {
-      const secret = process.env.JWT_SECRET || "";
-      const username = process.env.DUMMY_USERNAME || "";
-      const password = process.env.DUMMY_PASSWORD || "";
+      const secret = process.env.JWT_SECRET || "secret";
+      const email = process.env.DUMMY_EMAIL;
+      const name = process.env.DUMMY_NAME;
+      const password = process.env.DUMMY_PASSWORD;
 
       // Check if the username and password match the expected values
-      if (req.body.username !== username || req.body.password !== password) {
+      if (req.body.email !== email || req.body.password !== password) {
+        console.log("email:", email)
+        console.log("pass:", password)
         return res.status(401).json({ error: "Invalid username or password" });
       }
 
@@ -18,7 +21,7 @@ export class LoginController {
           data: req.body.username || "",
         },
         secret,
-        { expiresIn: 60 * 600 }
+        { expiresIn: "24h" }
       );
 
       return res.status(200).json({ token });

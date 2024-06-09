@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 const HomePage = () => {
   const [domain, setDomain] = useState('');
@@ -6,19 +8,32 @@ const HomePage = () => {
   const [available, setAvailable] = useState(false);
 
   const handleSearch = () => {
-    setDomain('tokotesting.id');
-    setMessage('Selamat domain anda tersedia');
-    setAvailable(true);
-    // Here you can add the logic to fetch and check the domain availability
+    axios.get(`${import.meta.env.VITE_API_URL}`) // Replace example.com with your API endpoint
+      .then(response => {
+        if (response.data.result === 'success' && response.data.status === 'available') {
+          setMessage('The domain is available.');
+          setAvailable(true);
+        } else {
+          setMessage('Sorry, the domain is not available.');
+          setAvailable(false);
+          toast.error('Sorry, the domain is not available.');
+        }
+      })
+      .catch(error => {
+        setMessage('An error occurred while checking domain availability.');
+        setAvailable(false);
+        console.error('Error:', error);
+      });
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <Toaster/>
       <div className="flex flex-col items-center mb-6">
         <input
           className="border border-gray-400 rounded-md px-4 py-2 w-72 mb-4"
           type="text"
-          placeholder="Cari domain contoh: example.com"
+          placeholder="Search for a domain (e.g., example.com)"
           value={domain}
           onChange={(e) => setDomain(e.target.value)}
         />
@@ -26,14 +41,14 @@ const HomePage = () => {
           className="bg-black text-white rounded-md px-4 py-2"
           onClick={handleSearch}
         >
-          CARI
+          SEARCH
         </button>
       </div>
       {available && (
         <div className="flex flex-col items-center">
           <p className="mb-4">{message}</p>
           <button className="bg-black text-white rounded-md px-4 py-2">
-            PESAN
+            ORDER
           </button>
         </div>
       )}
@@ -41,4 +56,4 @@ const HomePage = () => {
   );
 }
 
-export default HomePage
+export default HomePage;
