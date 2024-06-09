@@ -24,7 +24,7 @@ export class LoginController {
         { expiresIn: "24h" }
       );
 
-      return res.status(200).json({ token });
+      return res.status(200).json({ token, userName: name, userEmail: email});
     };
   }
 }
