@@ -17,7 +17,7 @@ function App() {
       element: <LoginPage/>
     },
     {
-      path: "/config",
+      path: "/config/:domain",
       element: <ConfigPage/>
     },
     {

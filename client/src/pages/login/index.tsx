@@ -16,10 +16,10 @@ const LoginPage: React.FC = () => {
         email,
         password,
       });
-      const { token, email: responseEmail, name } = response.data;
+      const { token, userEmail , userName } = response.data;
       Cookies.set("authToken", token, { expires: 1 }); 
-      Cookies.set("userEmail", responseEmail, { expires: 1 }); 
-      Cookies.set("userName", name, { expires: 1 });
+      Cookies.set("userEmail", userEmail, { expires: 1 }); 
+      Cookies.set("userName", userName, { expires: 1 });
       
       toast.success("Login successful");
       console.log("Login successful:", response.data);
