@@ -8,7 +8,11 @@ const HomePage = () => {
   const [available, setAvailable] = useState(false);
 
   const handleSearch = () => {
-    axios.get(`${import.meta.env.VITE_API_URL}`) // Replace example.com with your API endpoint
+    axios.get(`${import.meta.env.VITE_API_URL}`,{
+      params: {
+        domain: {domain}
+      }
+    }) // Replace example.com with your API endpoint
       .then(response => {
         if (response.data.result === 'success' && response.data.status === 'available') {
           setMessage('The domain is available.');
